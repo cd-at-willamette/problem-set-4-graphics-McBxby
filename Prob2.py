@@ -6,6 +6,7 @@
 
 from pgl import GWindow, GRect
 import unittest
+import random
 from unittest.mock import patch, MagicMock
 
 WIDTH = 800
@@ -23,8 +24,14 @@ def draw_pyramid():
     """ 
     Draws a pyramid of bricks centered on the screen with a height of BRICKS_IN_BASE. 
     """
+    
+    def random_color():
+        color = '#' # Random color
+        for i in range(6): # For each character in the color
+            color += random.choice('0123456789ABCDEF') #  Randomly choose a character
+        return color # Return the color
 
-    gw = GWindow(WIDTH, HEIGHT)
+    gw = GWindow(w, h)
 
     # You got it from here
     total_height = bh * bih # Total height of the pyramid
@@ -36,7 +43,7 @@ def draw_pyramid():
         for j in range(n_bricks): # For each brick in the row
             brick = GRect(start_x + bw * j, start_y + bh * i, bw, bh) # Creates a brick pyramid at the center of the screen 
             brick.set_filled(False) # Set's the bricks to not be filled
-            brick.set_color('#cb4154') # Set's the brick outline to be brick red
+            brick.set_color(random_color()) # Set's the color of the bricks
             gw.add(brick) # Add's the bricks to the GWindow
         n_bricks += 1 # Increment the number of bricks in a row
 
