@@ -4,7 +4,7 @@
 # Estimate time spent (hrs): 3.5
 ########################################
 
-from pgl import GWindow, GRect, GLabel, GLine
+from pgl import GWindow, GRect, GLabel
 import random
 
 GW_WIDTH = 500                      # Width of window
@@ -20,21 +20,22 @@ sx = SCORE_DX
 sy = SCORE_DY
 sf = SCORE_FONT
 
-gw = GWindow(GW_WIDTH, GW_HEIGHT)
-
-COLORS = ['red', 'orange', 'yellow', 'green', 'blue', 'purple', 'black', 'brown', 'cyan', 'magenta', 'pink', 'lime', 'teal', 'navy', 'olive', 'maroon', 'aqua', 'fuchsia', 'silver', 'gold', 'indigo', 'coral', 'lavender', 'salmon', 'turquoise', 'plum', 'tan', 'khaki', 'crimson', 'orchid', 'sienna', 'peru', 'darkgreen', 'darkblue', 'darkred', 'darkorange', 'darkcyan', 'darkmagenta', 'darkviolet', 'darkkhaki', 'darkslategray', 'darkolivegreen', 'darkgoldenrod', 'darkorchid', 'darkslateblue', 'darkturquoise', 'darkviolet', 'darkred', 'darkorange', 'darkcyan', 'darkmagenta', 'darkviolet', 'darkkhaki', 'darkslategray', 'darkolivegreen', 'darkgoldenrod', 'darkorchid', 'darkslateblue', 'darkturquoise', 'darkviolet', 'darkred', 'darkorange', 'darkcyan', 'darkmagenta', 'darkviolet', 'darkkhaki', 'darkslategray', 'darkolivegreen', 'darkgolden']
+gw = GWindow(w, h)
 
 def clicky_box():
     
     # Down here you should initialize the window and draw the initial square
     # Make sure you tab it in so that it is part of the clicky_box function
     
-    def change_color():
-        new_color = random.choice(COLORS) # Randomly chooses a color from the list of colors
-        gw.box.set_filled(True) # Fills the square
-        gw.box.set_color(new_color) # Sets the color of the square to the new color
-        
+    def random_color():
+        color = '#' # Random color
+        for i in range(6): # For each character in the color
+            color += random.choice('0123456789ABCDEF') #  Randomly choose a character
+        return color # Return the color
+    
     gw.box = GRect((w - ss) // 2, (h - ss) // 2, ss, ss) # Creates a square in the center of the GWindow
+    gw.box.set_filled(True) # Fills the square
+    gw.box.set_color(random_color()) # Set's initial random color
     gw.add(gw.box) # Adds the square to the GWindow
     
     score_label = GLabel("0") # Creates a label for the score
@@ -47,7 +48,7 @@ def clicky_box():
         element = gw.get_element_at(event.get_x(), event.get_y()) # Gets the element at the mouse click
         if element == gw.box: # If the element is the square
             move_square() # Moves the square
-            change_color() # Changes the color of the square
+            gw.box.set_color(random_color()) # Changes the color of the square
             score = int(score_label.get_label()) + 1 # Increment the score
             score_label.set_label(str(score)) # Set's the label of the label to the score
         else: # If the element is not the square
